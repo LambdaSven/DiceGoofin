@@ -1,3 +1,7 @@
+import { AstPrinter } from "./AstPrinter.js";
+import { Expr } from "./Expr.js";
+import { Interpreter } from "./Interpreter.js";
+import { Parser } from "./Parser.js";
 import { Scanner } from "./Scanner.js";
 import { Token } from "./Token.js";
 
@@ -13,9 +17,21 @@ export class DiceGoofin {
 	public static runExpr(input: string) {
 		const scanner = new Scanner(input);
 		const tokens: Array<Token> = scanner.scanTokens();
+		const parser: Parser = new Parser(tokens);
+		const interpreter: Interpreter = new Interpreter();
 
-		for(const t of tokens) {
-			console.log(t.toString());
+		//for(const t of tokens) {
+		//	console.log(t.toString());
+		//}
+
+		const tryExpression: Expr | null = parser.parse();
+		if(tryExpression !== null) {
+			const expression: Expr = tryExpression;
+			//console.log(JSON.stringify(expression, null, 2));
+			console.log(new AstPrinter().print(expression));
+			interpreter.interpret(expression);
+		} else {
+			console.error('failed to parse');
 		}
 	}
 
