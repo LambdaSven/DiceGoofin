@@ -67,7 +67,7 @@ export class Interpreter implements Visitor<object> {
             case TokenType.PLUS:
                 return {numVal: r + l};
             case TokenType.DIVIDE:
-                return {numVal: r / l};
+                return {numVal: l / r};
             case TokenType.MINUS:
                 return {numVal: r - l};
             case TokenType.EQUAL:
